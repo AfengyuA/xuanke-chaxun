@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>初二(3)班 文化选修账号查询</title>
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin:0; font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+         background:linear-gradient(135deg,#2f5496,#4a73c4); min-height:100vh;
+         display:flex; justify-content:center; align-items:flex-start; padding:24px 16px; }
+  .card { background:#fff; width:100%; max-width:420px; border-radius:18px; padding:26px 22px;
+         box-shadow:0 12px 40px rgba(0,0,0,.25); }
+  h1 { font-size:20px; text-align:center; color:#2f5496; margin:0 0 4px; }
+  .sub { text-align:center; color:#888; font-size:13px; margin-bottom:20px; }
+  .box { display:flex; gap:8px; }
+  input { flex:1; padding:13px 14px; font-size:16px; border:2px solid #d9e1f2;
+         border-radius:12px; outline:none; }
+  input:focus { border-color:#2f5496; }
+  button { padding:0 20px; font-size:16px; font-weight:600; color:#fff; background:#2f5496;
+         border:none; border-radius:12px; cursor:pointer; }
+  button:active { transform:scale(.97); }
+  .result { margin-top:20px; }
+  .row { background:#f2f5fb; border-radius:12px; padding:14px 16px; margin-bottom:10px; }
+  .row .lab { font-size:12px; color:#888; }
+  .row .val { font-size:20px; font-weight:700; color:#222; word-break:break-all; }
+  .row .val.pw { color:#c0392b; letter-spacing:1px; }
+  .err { margin-top:16px; color:#c0392b; text-align:center; font-size:15px; }
+  .notice { background:#fff7e6; border:1px solid #ffd591; border-radius:12px; padding:12px 14px; margin-bottom:16px; }
+  .notice .t { font-size:14px; color:#d46b08; font-weight:700; margin-bottom:4px; }
+  .notice .d { font-size:13px; color:#874d00; line-height:1.7; }
+  .notice .d b { color:#c0392b; }
+  
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>初二(3)班 文化选修账号查询</h1>
+    <div class="sub">请输入孩子的姓名查询登录账号与密码</div>
+    <div class="notice">
+      <div class="t">📅 选课安排</div>
+      <div class="d">时间：本周六（9月5日）上午 <b>8:30 – 9:30</b><br>请提醒孩子：只需选择 <b>一门</b> 课程即可，勿重复选课。</div>
+    </div>
+    <div class="box">
+      <input id="name" type="text" placeholder="" autocomplete="off">
+      <button onclick="query()">查询</button>
+    </div>
+    <div class="result" id="result"></div>
+    
+  </div>
+<script>
+  const DATA = {"丛奕臣": "1320251518", "谷涵凝": "1320251530", "何卓涵": "1320251525", "胡宇翔": "1320251504", "李伊洋": "1320251526", "李语儿": "1320251528", "梁好": "1320251529", "刘皓铭": "1320251522", "刘皓宇": "1320251512", "么雨萱": "1320251519", "史云熙": "1320251532", "宋俐瑶": "1320251531", "王睿辰": "1320251524", "吴玥姝": "1320251533", "尹婉": "1320251534", "于双宁": "1320251520", "张开源": "1320251514", "杜宇泽": "1320251502", "郭烔言": "1320251535", "华相如": "1320251508", "康凯尧": "1320251510", "刘博冉": "1320251509", "刘芙嘉": "1320251527", "刘铠旗": "1320251503", "吕源一": "1320251501", "米卡": "1320251516", "秦嘉瑞": "1320251507", "史佳禾": "1320251521", "孙大禹": "1320251505", "孙渴炎": "1320251506", "于天麒": "1320251511", "张嘉轩": "1320251517", "张然静杨": "1320251523", "张诗博": "1320251513", "张玉辰": "1320251515"};
+  const ALIAS = {"SADIKOVRADMIR": "米卡"};
+  const PW = "Hw123456";
+  function norm(s) { return s.toUpperCase().replace(/[^A-Z0-9一-龥]/g, ''); }
+  function query() {
+    const raw = document.getElementById('name').value.trim();
+    const res = document.getElementById('result');
+    if (!raw) { res.innerHTML = '<div class="err">请输入孩子姓名</div>'; return; }
+    let key = norm(raw);
+    let found = DATA[key];
+    if (found === undefined) {
+      const ak = ALIAS[key];
+      if (ak !== undefined) found = DATA[ak];
+    }
+    if (found === undefined) {
+      res.innerHTML = '<div class="err">未找到该姓名，请核对后重试</div>';
+      return;
+    }
+    res.innerHTML =
+      '<div class="row"><div class="lab">选课账号</div><div class="val">' + found + '</div></div>' +
+      '<div class="row"><div class="lab">登录密码</div><div class="val pw">' + PW + '</div></div>';
+  }
+  document.getElementById('name').addEventListener('keydown', e => { if (e.key === 'Enter') query(); });
+</script>
+</body>
+</html>
